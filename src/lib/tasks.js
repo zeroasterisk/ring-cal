@@ -16,8 +16,12 @@ Tasks.allow({
     );
   },
   remove: function (userId, doc) {
-    // can only remove your own documents
-    return doc.owner === userId;
+    return (
+      // can change un-owned documents
+      !_.has(doc, 'owner') ||
+      // can change your own documents
+      doc.owner === userId
+    );
   },
   fetch: ['owner']
 });
