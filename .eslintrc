@@ -1,0 +1,39 @@
+{
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "plugins": [
+      "bdd",
+      "html",
+      "lodash",
+      "meteor"
+    ],
+    "rules": {
+      "indent": [2, 2],
+      "quotes": [2, "single"],
+      "linebreak-style": [2, "unix"],
+      "semi": [2, "always"],
+      "no-undef": 0,
+      "no-console": 0,
+      "no-underscore-dangle": 0,
+
+      // Core API
+      "lodash/import": 1,
+      "meteor/globals": 2,
+      "meteor/core": 2,
+      "meteor/pubsub": 2,
+      "meteor/methods": 2,
+      "meteor/check": 2,
+      "meteor/connections": 2,
+      "meteor/collections": 2,
+
+      // Best Practices
+      "meteor/audit-argument-checks": 2,
+      "meteor/no-session": 2,
+      "meteor/no-blaze-lifecycle-assignment": 2,
+      "meteor/no-zero-timeout": 2,
+      "meteor/blaze-consistent-eventmap-params": 2
+    },
+    "extends": "eslint:recommended"
+}
