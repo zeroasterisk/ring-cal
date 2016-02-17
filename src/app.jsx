@@ -7,37 +7,36 @@ App = React.createClass({
   // Loads items from the Tasks collection and puts them on this.data.tasks
   getMeteorData() {
     return {
+      currentUser: Meteor.user(),
       tasks: Tasks.find({}, {sort: {createdAt: -1}}).fetch()
     }
   },
 
-  renderTasks() {
-    // Get tasks from this.data.tasks
-    return this.data.tasks.map((task) => {
-      return <Task key={task._id} task={task} />;
-    });
+  amILoggedIn() {
+    return !!Meteor.userId();
   },
 
-  handleSubmit(event) {
-    event.preventDefault();
-
-    // Find the text field via the React ref
-    var text = React.findDOMNode(this.refs.textInput).value.trim();
-
-    Tasks.insert({
-      text: text,
-      createdAt: new Date() // current time
-    });
-
-    // Clear form
-    React.findDOMNode(this.refs.textInput).value = "";
-  },
-
-  render() {
+  renderAnon() {
     return (
       <div className="container">
         <header>
-          <h1>Todo List</h1>
+          <h1>Welcome to Ring-Cal</h1>
+        </header>
+
+        <div className="alt-accounts-log-in-buttons-dialog">
+          <AccountStatus />
+          <AccountForm showClose='true'/>
+        </div>
+      </div>
+    );
+  },
+
+  renderUser() {
+    return (
+      <div className="container">
+        <header>
+          <h1>Hi {this.data.user.profile.name}</h1>
+
 
           <form className="new-task" onSubmit={this.handleSubmit} >
             <input
@@ -47,11 +46,14 @@ App = React.createClass({
           </form>
 
         </header>
-
-        <ul>
-          {this.renderTasks()}
-        </ul>
       </div>
     );
+  },
+
+  render() {
+    if (this.amILoggedIn()) {
+      return this.renderUser();
+    }
+    return this.renderAnon();
   }
 });
